@@ -33,11 +33,10 @@ public String addUser(@ModelAttribute("userForm") @Valid User userForm, Model mo
         System.out.println(userForm.getUsername());
         if(user1 == null)
         {
-            userForm.setRoles(Collections.singleton(Role.USER));
+            userForm.setRoles(Collections.singleton(Role.ADMIN));
             userForm.setActive(true);
             userRepository.save(userForm);
         }
-
         return "redirect:/";
     }
 }

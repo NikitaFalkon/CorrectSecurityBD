@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:each="user : ${users}">
+<form th:method="POST">
+    <input type="text" th:value="${user.username}" name="username" placeholder="username"/>
+    <br/>
+    <input type="text" th:value="${user.password}" name="password" placeholder="password"/>
+<!--    <div th:each="role : ${roles}" name="role" placeholder="role" th:value="${user.roles}">
+        <label th:value="${role}"><p th:text="${user.roles}"/><input type="checkbox"   /></label>
+    </div>-->
+    <button type="submit">Redact</button>
+</form>
+</div>
+</body>
+</html>
