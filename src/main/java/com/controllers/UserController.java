@@ -2,6 +2,7 @@ package com.controllers;
 
 import com.Model.Role;
 import com.Model.User;
+import com.Model.UserService;
 import com.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,21 +19,21 @@ import java.util.stream.Collectors;
 @RequestMapping("/user")
 public class UserController {
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
     @GetMapping("/")
     public String userList(Model model)
     {
-        model.addAttribute("users", userRepository.findAll());
+        model.addAttribute("users", userService.allUsers());
         return "Users";
     }
     @GetMapping("/{id}/edit")
     public String Edit(@PathVariable Long id, Model model)
     {
-        if (!userRepository.existsById(id))
+        if (!userService.ExistById(id))
         {
             return "redirect:hello";
         }
-        Optional<User> user = userRepository.findById(id);
+        Optional<User> user = userService.FindById(id);
         ArrayList<User> users = new ArrayList<>();
         user.ifPresent(users::add);
         model.addAttribute("roles", Role.values());
@@ -47,10 +48,16 @@ public class UserController {
 //                            @RequestParam(name ="role", required = false) String form,
                             Model model)
     {
-        User user = userRepository.findById(id).orElseThrow();
+        ;
+        if (!userService.redactUser(username,password, id)){
+            model.addAttribute("usernameError", "There is no such a user");
+            return "redirect:/{id}/edit";
+        }
+        return "redirect:/";
+        /*User user = userRepository.findById(id).orElseThrow();
         user.setUsername(username);
         user.setPassword(password);
-        user.setActive(true);
+        user.setActive(true);*/
 //        System.out.println(form);
         //form.forEach(f -> System.out.println(f));
 /*        Set<String> roles = Arrays.stream(Role.values())
@@ -63,7 +70,6 @@ public class UserController {
                 user.getRoles().add(Role.valueOf(key));
             }
         }*/
-        userRepository.save(user);
-        return "redirect:/";
+        //userRepository.save(user);
     }
 }

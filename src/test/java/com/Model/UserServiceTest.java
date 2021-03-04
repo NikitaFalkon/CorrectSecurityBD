@@ -56,4 +56,18 @@ public class UserServiceTest extends TestCase {
         boolean Exist = userService.FindUser(user);
         Assert.assertFalse(Exist);
     }
+/*    @Test
+    public void testRedactUser()
+    {
+        User user = new User();
+        user.setPassword("password");
+        user.setUsername("user");
+        user.setId((long) 1);
+        Mockito.doReturn(new User())
+                .when(userRepository)
+                .findById((long)2).orElseThrow();
+        boolean Redact = userService.redactUser("u", "p", 1);
+        Assert.assertTrue(Redact);
+        Assert.assertEquals(user.getPassword(), "p");
+    }*/
 }
